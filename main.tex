@@ -1,0 +1,638 @@
+\documentclass[12pt,onecolumn,a4paper]{article}
+\usepackage{amsthm,amsmath,amssymb,bm}
+\usepackage{epsfig,graphicx,subcaption}
+\usepackage{float}
+\usepackage{color,xcolor}
+\usepackage{fmtcount}
+\usepackage{placeins}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usepackage{csvsimple}
+\usepackage[top=1in, left=1in, right=1in, bottom=1in]{geometry}
+\usepackage{nicefrac}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{tabularx, booktabs, makecell}
+\usepackage{hyperref,url}
+\usepackage{listings}
+\usepackage{natbib}
+\usepackage{siunitx}
+
+
+\renewcommand{\baselinestretch}{1.5} 
+
+
+\makeatletter
+\let\old@lstKV@SwitchCases\lstKV@SwitchCases
+\def\lstKV@SwitchCases#1#2#3{}
+\makeatother
+\usepackage{lstlinebgrd}
+\makeatletter
+\let\lstKV@SwitchCases\old@lstKV@SwitchCases
+
+\lst@Key{numbers}{none}{%
+	\def\lst@PlaceNumber{\lst@linebgrd}%
+	\lstKV@SwitchCases{#1}%
+	{none:\\%
+		left:\def\lst@PlaceNumber{\llap{\normalfont
+				\lst@numberstyle{\thelstnumber}\kern\lst@numbersep}\lst@linebgrd}\\%
+		right:\def\lst@PlaceNumber{\rlap{\normalfont
+				\kern\linewidth \kern\lst@numbersep
+				\lst@numberstyle{\thelstnumber}}\lst@linebgrd}%
+	}{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+\makeatother
+\newcounter{subListing}[subfigure]
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{mygreen}{RGB}{28,172,0} 
+\definecolor{mylilas}{RGB}{170,55,241}
+\definecolor{backcolour}{rgb}{1,1,0.98}
+
+\lstset{language=MATLAB,%
+    backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{blue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\tt\scriptsize,
+	frame = LBtr,
+	%frameround=T,
+	rulecolor=\color{gray},
+	showstringspaces=false,
+	numbers=left,%
+	numberstyle={\tiny\color{gray}},
+	numbersep=8pt,
+	breaklines=true,
+	%postbreak=\mbox{\textcolor{yellow}{$\hookrightarrow$}\space},
+	tabsize=2,
+	escapechar=`,
+	xleftmargin=1.8 em, 
+	framexleftmargin=2em,
+}
+
+\newcommand*{\transpose}{{\mkern-1.5mu\mathsf{T}}}
+
+
+\usepackage{titlesec}
+\titleformat{\section}[block]
+{\titlerule\addvspace{4pt}\normalfont\fontsize{14}{16}\bfseries}
+{\thesection\enspace}{0pt}{}[\vspace{2pt}\titlerule]
+
+
+\usepackage{xepersian}
+\settextfont{XB Niloofar}
+
+
+\newcommand\question{
+	\section{پاسخ سوال \tartibi{section}}
+}
+
+
+\author{
+	محمد رضیئی فیجانی
+	}
+\title{
+	پاسخ تمرینات کامپیوتری سری اول فرایند تصادفی
+	}
+\date{\today}
+
+
+
+
+\newcounter{rownum} % Define a counter for the row number
+\begin{document}
+	
+	
+	% Set the page style to "fancy"...
+	\pagestyle{fancy}
+	%... then configure it.
+	%		\fancyhead{} % clear all header fields
+	%		\fancyhead[RO,LE]{\textbf{The performance of new graduates}}
+	%		\fancyfoot{} % clear all footer fields
+	%		\fancyfoot[LE,RO]{\thepage}
+	%		\fancyfoot[LO,CE]{From: K. Grant}
+	%		\fancyfoot[CO,RE]{To: Dean A. Smith}
+	\maketitle
+	
+	\section*{مقدمه}
+		تمامی تمرینات در 
+		\lr{Matlab R2024a}
+		\cite{matlab2024a}
+		توسعه پیدا کرده است.
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\FloatBarrier
+		\question%{خودهمبستگی و همبستگی متقابل}
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\FloatBarrier
+		\subsection{قسمت الف:}
+		
+		فرض می‌کنیم \( x[n] \) یک نویز سفید گوسی با میانگین صفر و واریانس \( \sigma_x^2 = 1 \) است. خودهمبستگی این سیگنال به صورت زیر تعریف می‌شود:
+		\begin{equation}
+			R_{xx}[k] = \sigma_x^2 \delta[k] = \delta[k]
+		\end{equation}
+	
+		
+		از طرف دیگر، سیگنال \( y[n] \) با رابطه‌ی زیر به دست می‌آید:
+		\begin{equation}
+			y[n] = x[n] - 0.8 \, x[n-1] + 0.6 \, x[n-2]
+		\end{equation}
+		
+		خودهمبستگی \( y[n] \) و همبستگی متقابل بین \( x[n] \) و \( y[n] \) به ترتیب با روابط زیر محاسبه می‌شود:
+		
+		\begin{equation}
+			R_{yy}[k] = E[y[n] \, y[n+k]]
+		\end{equation}
+		
+		\begin{equation}
+			R_{xy}[k] = E[x[n] \, y[n+k]]
+		\end{equation}
+		
+		با فرض اینکه \( x[n] \) نویز سفید گوسی است، این روابط به صورت تئوری و با استفاده از کانولوشن قابل محاسبه هستند. نمودارهای زیر نتایج تئوری محاسبات \( R_{xy} \) و \( R_{yy} \) را نشان می‌دهند.
+		
+		\begin{figure}[H]
+			\centering
+			\begin{subfigure}{.45\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{Q1/results/Rxy}
+				\caption{$R_{xy}$}
+				\label{fig:rxy}
+			\end{subfigure}
+			\hfill
+			\begin{subfigure}{.45\linewidth}
+				\centering
+				\includegraphics[width=\linewidth]{Q1/results/Ryy}
+				\caption{$R_{yy}$}
+				\label{fig:ryy}
+			\end{subfigure}
+			\caption{خودهمبستگی و همبستگی متقابل به صورت تئوری}
+		\end{figure}
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\FloatBarrier
+		\subsection{قسمت ب:}
+
+		
+		در این بخش، \( N \) نمونه از سیگنال \( x[n] \) را تولید کرده و به ازای \( N = 100 \) و \( N = 10000 \)، توابع خودهمبستگی و همبستگی متقابل را محاسبه و رسم می‌کنیم. برای تخمین خودهمبستگی از تابع `xcorr` استفاده می‌شود.
+		
+\begin{latin}
+\begin{lstlisting}[language=Matlab]
+% Autocorrelation of x[n]
+R_x = xcorr(x, 'biased');
+
+% Autocorrelation of y[n]
+R_y = xcorr(y, 'biased');
+
+% Cross-correlation between x[n] and y[n]
+R_xy = xcorr(x, y, 'biased');
+\end{lstlisting}
+\end{latin}
+		
+		در نمودارهای زیر، نتایج تخمینی توابع خودهمبستگی و همبستگی متقابل نمایش داده شده است.
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=\linewidth]{Q1/results/xcorr-N100}
+			\caption{خودهمبستگی و همبستگی متقابل برای \( N = 100 \)}
+			\label{fig:xcorr-n100}
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=\linewidth]{Q1/results/xcorr-N10000}
+			\caption{خودهمبستگی و همبستگی متقابل برای \( N = 10000 \)}
+			\label{fig:xcorr-n10000}
+		\end{figure}
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\FloatBarrier
+		\subsection{قسمت پ:}
+
+		
+		در این بخش، ابتدا تابع چگالی طیف توان \( x[n] \) و \( y[n] \) را به صورت تئوری محاسبه می‌کنیم.
+		
+		\subsubsection{تابع چگالی طیف توان برای \( x[n] \)}
+		چون \( x[n] \) یک نویز سفید گوسی است:
+		
+		\begin{equation}
+			S_{xx}(f) = \sigma_x^2 = 1
+		\end{equation}
+		
+		\subsubsection{تابع چگالی طیف توان برای \( y[n] \)}
+		تابع چگالی طیف توان برای \( y[n] \) با استفاده از بزرگی پاسخ فرکانسی سیستم محاسبه می‌شود:
+		
+		\begin{equation}
+			S_{yy}(f) = |H(f)|^2 \cdot S_{xx}(f)
+		\end{equation}
+		
+		که در آن:
+		
+		\begin{equation}
+			H(f) = 1 - 0.8 \, e^{-j 2\pi f} + 0.6 \, e^{-j 4\pi f}
+		\end{equation}
+		
+		و:
+		
+		\begin{equation}
+			|H(f)| = \left| 1 - 0.8 \, e^{-j 2\pi f} + 0.6 \, e^{-j 4\pi f} \right|
+		\end{equation}
+		
+		تابع چگالی طیف توان تخمینی نیز با استفاده از روش ولچ (Welch) محاسبه می‌شود:
+		
+\begin{latin}
+\begin{lstlisting}
+% Calculate the Power Spectral Density using Welch's method
+[PSD_y, f] = pwelch(y, window_length, overlap, N, 1, 'centered');
+\end{lstlisting}
+\end{latin}
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{Q1/results/psd-N100}
+			\caption{تابع چگالی طیف توان برای \( N = 100 \)}
+			\label{fig:psd-n100}
+		\end{figure}
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{Q1/results/psd-N10000}
+			\caption{تابع چگالی طیف توان برای \( N = 10000 \)}
+			\label{fig:psd-n10000}
+		\end{figure}
+		
+
+
+
+
+
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\FloatBarrier
+		\question%{خودهمبستگی و همبستگی متقابل}
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\FloatBarrier
+		\subsection{قسمت الف:}
+
+
+
+\begin{equation}
+	y[n] = 0.5 \, y[n-1] + 0.8 \, x[n] - 0.6 \, x[n-1] + v[n]
+\end{equation}
+
+
+\begin{equation}
+	\bm{u}_n = \begin{bmatrix}
+		y[n-1] \\
+		x[n] \\
+		x[n-1]
+	\end{bmatrix}
+\end{equation}
+
+
+رابطه به‌صورت زیر است:
+
+\begin{equation}
+	(\bm{u}_n)^\transpose \bm{a}
+	= y[n]
+\end{equation}
+
+که در آن $\bm{a}$ در این مسیله به شکل زیر تعریف شده است:
+\begin{equation}
+	\bm{a} = 
+	\begin{bmatrix}
+		a_{-1} \\
+		a_{0} \\
+		a_{1}
+	\end{bmatrix} =
+	\begin{bmatrix}
+		0.5 \\
+		0.8 \\
+		-0.6
+	\end{bmatrix}
+\end{equation}
+
+	
+\begin{equation}
+	\bm{y} = \bm{U} \bm{a}
+\end{equation}
+
+
+\begin{equation}
+	\bm{U} = 
+	\begin{bmatrix}
+		y[0] & x[1] & x[0] \\
+		y[1] & x[2] & x[1] \\
+		y[2] & x[3] & x[2] \\
+		\vdots & \vdots & \vdots \\
+		y[N-2] & x[N-1] & x[N-2]
+	\end{bmatrix}
+	 ; \quad
+	\bm{y} = 
+	\begin{bmatrix}
+		y[1] \\
+		y[2] \\
+		\vdots \\
+		y[N-1]
+	\end{bmatrix}
+\end{equation}
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	هدف ما کمینه‌سازی عبارت زیر است:
+	\begin{equation}
+		\min_{\bm{a}} \big\| \bm{y} - \bm{U} \bm{a} \big\|_2^2
+	\end{equation}
+	
+
+	\begin{equation}
+		\bm{a}_\text{est} = \bm{U}^\dagger \bm{y}
+	\end{equation}
+
+
+\begin{equation}
+	\bm{a}_\text{est} =
+	\begin{bmatrix}
+		% Read the CSV file and insert the values into the matrix
+		\csvreader[head=false, late after line=\\]{Q2/results/a-est-3.csv}{}%
+		{\csvcoli}
+	\end{bmatrix}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{الف۱}
+
+\subsubsection{الف۲}
+
+در صورتی که تصور کنیم،  بردار مجهولات جدید مطابق زیر باشد:
+\begin{equation}
+	\bm{a} = \begin{bmatrix} a_{-2} \\ a_{-1} \\ a_0 \\ a_1 \\ a_2 \end{bmatrix}
+\end{equation}
+
+رابطه‌ی ورودی-خروجی به صورت زیر است:
+\begin{equation}
+	y[n] = a_{-2} \, y[n-2] + a_{-1} \, y[n-1] + a_0 \, x[n] + a_1 \, x[n-1] + a_2 \, x[n-2]
+\end{equation}
+
+
+
+\begin{equation}
+	\bm{U} = 
+	\begin{bmatrix}
+		y[0] & y[1] & x[2] & x[1] & x[0] \\
+		y[1] & y[2] & x[3] & x[2] & x[1] \\
+		y[2] & y[3] & x[4] & x[3] & x[2] \\
+		\vdots & \vdots & \vdots & \vdots & \vdots \\
+		y[N-3] & y[N-2] & x[N-1] & x[N-2] & x[N-3]
+	\end{bmatrix}
+	 ; \quad
+	\bm{y} = 
+	\begin{bmatrix}
+		y[2] \\
+		y[3] \\
+		\vdots \\
+		y[N-2]
+	\end{bmatrix}
+\end{equation}
+
+
+
+\begin{equation}
+	\bm{a}_\text{est} =
+	\begin{bmatrix}
+		% Read the CSV file and insert the values into the matrix
+		\csvreader[head=false, late after line=\\]{Q2/results/a-est-5.csv}{}%
+		{\csvcoli}
+	\end{bmatrix}
+\end{equation}
+
+
+\subsubsection{الف۳}
+
+\begin{equation}
+	y[n] = \sum_{i=0}^M a_i x[n-i]
+\end{equation}
+
+
+\begin{equation}
+	\bm{a} = \begin{bmatrix}  a_0 \\ a_1 \\ \vdots \\ a_M \end{bmatrix}
+\end{equation}
+
+
+\begin{equation}
+	\bm{U} = 
+	\begin{bmatrix}
+		x[M] & x[M-1] & \cdots & x[1] & x[0] \\
+		x[M+1] & x[M] & \cdots & x[2] & x[1] \\
+		x[M+2] & x[M+1] & \cdots & x[3] & x[2] \\
+		\vdots & \vdots &  & \vdots & \vdots \\
+		x[N-1] & x[N-2] & \cdots & x[N-M] & x[N-M-1]
+	\end{bmatrix}_{(N-M)\times(M+1)}
+\end{equation}
+
+\begin{equation}
+	\bm{y} = 
+	\begin{bmatrix}
+		y[M] \\
+		y[M+1] \\
+		\vdots \\
+		y[N-1]
+	\end{bmatrix}_{(N-M)\times1}
+\end{equation}
+
+
+
+\begin{table}
+\centering
+\begin{LTR}
+	\begin{tabular}{|c||c|c|c|}
+		\hline
+		\(M\)& 5 & 10 & 15 \\\hline
+		\(	\bm{a}_\text{est} \) & 
+		\(
+		\begin{matrix}
+			\csvreader[head=false, late after line=\\]{Q2/results/a-est-ma-5.csv}{}%
+			{\num{\csvcoli}}
+		\end{matrix}
+		\) &
+		\(
+		\begin{matrix}
+			\csvreader[head=false, late after line=\\]{Q2/results/a-est-ma-10.csv}{}%
+			{\num{\csvcoli}}
+		\end{matrix}
+		\) & 
+		\(
+		\begin{matrix}
+			\csvreader[head=false, late after line=\\]{Q2/results/a-est-ma-15.csv}{}%
+			{\num{\csvcoli}}
+		\end{matrix}
+		\)
+		\\\hline
+	\end{tabular}
+\end{LTR}
+\end{table}
+
+\newpage
+\section{پیوست‌ها}
+
+
+\subsection{محاسبه کمترین مربعات خطا (LSE)}
+
+
+
+هدف این بخش، پیدا کردن بردار پارامترهای تخمین‌گر خطی \( \bm{x} \) به‌گونه‌ای است که فاصله اقلیدسی بین بردار مشاهدات \( \bm{y} \) و مدل خطی \( \bm{A} \bm{x} \) کمینه شود.
+\begin{equation}
+	\min_{\bm{x}} \| \bm{y} - \bm{A} \bm{x} \|_2^2
+\end{equation}
+
+که در آن \( \bm{y} \) بردار مشاهدات، \( \bm{A} \) ماتریس طراحی و \( \bm{x} \) بردار پارامترهای مجهول است. تابع هدف به صورت زیر تعریف می‌شود:
+\begin{equation}
+	f(\bm{x}) = \| \bm{y} - \bm{A} \bm{x} \|_2^2 = (\bm{y} - \bm{A} \bm{x})^\transpose (\bm{y} - \bm{A} \bm{x})
+\end{equation}
+
+با باز کردن این تابع:
+\begin{equation}
+	f(\bm{x}) = \bm{y}^\transpose \bm{y} - 2 \bm{x}^\transpose \bm{A}^\transpose \bm{y} + \bm{x}^\transpose \bm{A}^\transpose \bm{A} \bm{x}
+\end{equation}
+
+برای پیدا کردن نقطه‌ی بهینه، مشتق تابع \( f(\bm{x}) \) را نسبت به \( \bm{x} \) محاسبه کرده و آن را برابر صفر قرار می‌دهیم:
+\begin{equation}
+	{\nabla} f(\bm{x}) = -2 \bm{A}^\transpose \bm{y} + 2 \bm{A}^\transpose \bm{A} \bm{x} = 0
+\end{equation}
+
+با ساده‌سازی، معادله‌ی نرمال به دست می‌آید:
+\begin{equation}
+	\bm{A}^\transpose \bm{A} \bm{x} = \bm{A}^\transpose \bm{y}
+\end{equation}
+
+که با حل این معادله، بردار \( \bm{x} \) بهینه به صورت زیر خواهد بود:
+\begin{equation}
+	\bm{x} = (\bm{A}^\transpose \bm{A})^{-1} \bm{A}^\transpose \bm{y}
+\end{equation}
+
+حال، بردار خطا را به دست می‌آوریم:
+\begin{equation}
+	\bm{e} = \bm{y} - \bm{A} \bm{x} = \bm{y} - \bm{A} (\bm{A}^\transpose \bm{A})^{-1} \bm{A}^\transpose \bm{y}
+\end{equation}
+
+بنابراین، خطای کمترین مربعات برابر است با:
+\begin{equation}
+	\| \bm{e} \|_2^2 = \| \bm{y} - \bm{A} \bm{x} \|_2^2
+\end{equation}
+
+با معرفی \( \bm{P} = \bm{A} (\bm{A}^\transpose \bm{A})^{-1} \bm{A}^\transpose \) به عنوان ماتریس پروجکشن، می‌توان خطای کمترین مربعات را به صورت زیر نوشت:
+\begin{equation}
+	\| \bm{e} \|_2^2 = \| (\bm{I} - \bm{P}) \bm{y} \|_2^2
+\end{equation}
+
+که در آن، \( \bm{I} \) ماتریس واحد است و \( \bm{P} \) بردار \( \bm{y} \) را بر روی زیرفضای ستون‌های \( \bm{A} \) تصویر می‌کند. در نتیجه، کمترین مربعات خطا به صورت زیر خواهد بود:
+\begin{equation}
+	\text{\lr{Least Square Error}} = \| (\bm{I} - \bm{P}) \bm{y} \|_2^2
+\end{equation}
+
+
+
+
+\subsection{تعریف سودو اینورس (Pseudo-inverse)}
+
+
+
+\noindent
+سودو اینورس یا \textit{معکوس مور-پنروز}
+\LTRfootnote{Moore-Penrose}
+، یک تعمیم از معکوس ماتریس است که می‌تواند برای هر ماتریسی، چه مربعی و چه غیرمربعی، چه منفرد و چه غیرمنفرد، تعریف شود. برای یک ماتریس \( \bm{A} \) با ابعاد \( m \times n \)، سودو اینورس آن که با \( \bm{A}^\dagger \) نشان داده می‌شود، یکتاست و شرایط زیر را ارضا می‌کند:
+
+\begin{equation}
+	\bm{A} \, \bm{A}^\dagger \, \bm{A} = \bm{A}
+\end{equation}
+
+\begin{equation}
+	\bm{A}^\dagger \, \bm{A} \, \bm{A}^\dagger = \bm{A}^\dagger
+\end{equation}
+
+\begin{equation}
+	(\bm{A} \, \bm{A}^\dagger)^T = \bm{A} \, \bm{A}^\dagger
+\end{equation}
+
+\begin{equation}
+	(\bm{A}^\dagger \, \bm{A})^T = \bm{A}^\dagger \, \bm{A}
+\end{equation}
+
+
+
+\noindent
+اگر ماتریس \( \bm{A} \) به صورت کامل رتبه باشد، سودو اینورس آن به شکل زیر محاسبه می‌شود:
+
+\noindent
+- اگر \( m \geq n \) (تعداد سطرها بیشتر از تعداد ستون‌ها باشد):
+\begin{equation}
+	\bm{A}^\dagger = (\bm{A}^\transpose \, \bm{A})^{-1} \, \bm{A}^\transpose
+\end{equation}
+
+\noindent
+- اگر \( m < n \) (تعداد ستون‌ها بیشتر از تعداد سطرها باشد):
+\begin{equation}
+	\bm{A}^\dagger = \bm{A}^\transpose \, (\bm{A} \, \bm{A}^\transpose)^{-1}
+\end{equation}
+
+\noindent
+در حالت کلی و برای ماتریس‌هایی که رتبه کامل ندارند، سودو اینورس با استفاده از تجزیه مقدار منفرد (SVD) به صورت زیر محاسبه می‌شود:
+\begin{equation}
+	\bm{A} = \bm{U} \, \bm{\Sigma} \, \bm{V}^\transpose \implies \bm{A}^\dagger = \bm{V} \, \bm{\Sigma}^\dagger \, \bm{U}^\transpose
+\end{equation}
+
+که در آن:
+\( \bm{U} \) و \( \bm{V} \) ماتریس‌های متعامد هستند.
+\( \bm{\Sigma} \) ماتریس قطری شامل مقادیر منفرد است.
+\( \bm{\Sigma}^\dagger \) با معکوس کردن مقادیر غیرصفر در \( \bm{\Sigma} \) به دست می‌آید.
+
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newpage
+	\bibliographystyle{plainnat-fa}
+	%\nocite{*}
+	\bibliography{references}
+	
+	
+\end{document}
