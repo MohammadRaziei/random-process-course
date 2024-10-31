@@ -21,22 +21,40 @@ y_n = filter(a_x, a_y, x_n);
 U = [y_n(1:N-1), x_n(2:N) x_n(1:N-1)];
 y = y_n(2:N);
 
-a_est = pinv(U) * y;
+pU = pinv(U);
+a_est = pU * y;
 disp(a_est)
 
+e = norm((eye(length(y)) - U*pU)*y)^2 / N;
+e2 = norm((eye(length(y)) - U*pU)*y)^2;
+
+disp(e)
+
+disp(e)
+
+
+
+
 csvwrite(sprintf("results/a-est-%i.csv", length(a_est)), a_est);
-csvwrite(sprintf("results/a-est-%i-err.csv", length(a_est)), [norm(a_est-a); a_est - a]);
+csvwrite(sprintf("results/a-est-%i-err.csv", length(a_est)), [norm(a_est-a); e; e2; a_est - a]);
 
 
 
 U = [y_n(1:N-3), y_n(2:N-2), x_n(3:N-1), x_n(2:N-2), x_n(1:N-3)];
 y = y_n(3:N-1);
 
-a_est = pinv(U) * y;
+pU = pinv(U);
+a_est = pU * y;
 disp(a_est)
 
+e = norm((eye(length(y)) - U*pU)*y)^2 / N;
+e2 = norm((eye(length(y)) - U*pU)*y)^2;
+
+disp(e)
+
+
 csvwrite(sprintf("results/a-est-%i.csv", length(a_est)), a_est);
-csvwrite(sprintf("results/a-est-%i-err.csv", length(a_est)), [norm(a_est-[0;a;0]); (a_est - [0;a;0])]);
+csvwrite(sprintf("results/a-est-%i-err.csv", length(a_est)), [norm(a_est-[0;a;0]); e; e2; (a_est - [0;a;0])]);
 %%
 
 
