@@ -19,6 +19,9 @@ Rxy_idx = (1-length(h)):0;
 stem(Rxy_idx, Rxy)
 xlim([-length(h), 1])
 ylim([-2, 3])
+for i = 1:length(Rxy)
+    text(Rxy_idx(i), Rxy(i)+.3*sign(Rxy(i)), sprintf("%g", Rxy(i)), "HorizontalAlignment", "center");
+end
 exportgraphics(gcf, 'results/Rxy.pdf', 'Append', false);
 
 figure
@@ -26,6 +29,9 @@ Ryy_idx = (1-length(h)):(length(h)-1);
 stem(Ryy_idx, Ryy)
 xlim([-length(h), length(h)])
 ylim([-2, 3])
+for i = 1:length(Ryy)
+    text(Ryy_idx(i), Ryy(i)+.3*sign(Ryy(i)), sprintf("%g", Ryy(i)), "HorizontalAlignment", "center");
+end
 exportgraphics(gcf, 'results/Ryy.pdf', 'Append', false);
 
 
