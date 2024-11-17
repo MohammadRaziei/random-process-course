@@ -24,6 +24,11 @@
 
 \usepackage{multirow}
 
+\usepackage{colortbl}
+
+
+\setlength{\aboverulesep}{1pt}
+\setlength{\belowrulesep}{1pt}
 
 
 \usepackage{tikz}
@@ -123,37 +128,30 @@
 
 
 \newcounter{rownum} % Define a counter for the row number
+\newcounter{csvrownum} % Define a counter for the row number
 
-\newcommand\makeresultcellNv[4]{
+\newcommand\saverread{
 	\(
-	\begin{matrix}
-		a_{\text{est}} = 
-		\begin{pmatrix}
-			\csvreader[head=false, late after line=\\]{Q2/results/a-est-#2-N#3-v#4.csv}{}%
-			{\num{\csvcoli}}
-		\end{pmatrix}
-		\\
-		\text{#1} =
-		\csvreader[head=false, 
-		before reading=\setcounter{rownum}{0}, after line=\stepcounter{rownum} 
-		]{Q2/results/a-est-#2-N#3-v#4-err.csv}{}%
-		{\ifnum\therownum=0 \csvcoli \fi}
-		\\
-		\text{LSE} = 
-		\csvreader[head=false, 
-		before reading=\setcounter{rownum}{0}, after line=\stepcounter{rownum} 
-		]{Q2/results/a-est-#2-N#3-v#4-err.csv}{}%
-		{\ifnum\therownum=2 \num{\csvcoli} \fi}
-		\\
-		\nicefrac{\text{LSE}}{N} = 
-		\csvreader[head=false, 
-		before reading=\setcounter{rownum}{0}, after line=\stepcounter{rownum} 
-		]{Q2/results/a-est-#2-N#3-v#4-err.csv}{}%
-		{\ifnum\therownum=1 \num{\csvcoli} \fi}
-	\end{matrix}
+	\csvreader[head=false, 
+	before reading=\setcounter{csvrownum}{1}, after line=\stepcounter{csvrownum} 
+	]{Q1/results/saver.csv}{}%
+	{\ifnum\thecsvrownum=\therownum \csvcoli \num{\csvcolii} \fi}
 	\)
 }
 
+\newcommand\makefitrowlambdatime[3]{
+	\csvreader[head=false, 
+	before reading=\setcounter{rownum}{1}, after line=\stepcounter{rownum} 
+	]{Q2/results/e-mt-lambda1-#1-lambda2-#2-time.csv}{}%
+	{\ifnum\therownum=#3 $\csvcoli\ \big(1 - \mathrm{e}^{-\csvcolii\ t}\big)$ \fi}
+}
+
+\newcommand\makefitrowlambda[3]{
+	\csvreader[head=false, 
+	before reading=\setcounter{rownum}{1}, after line=\stepcounter{rownum} 
+	]{Q2/results/e-mt-lambda1-#1-lambda2-#2.csv}{}%
+	{\ifnum\therownum=#3 $\csvcoli\ \big(1 - \mathrm{e}^{-\csvcolii\ t}\big)$ \fi}
+}
 
 
 
@@ -183,7 +181,77 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 
-سلام
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Q1/results/individual_trajectories}
+	\caption{}
+	\label{fig:individualtrajectories}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Q1/results/mean_positions}
+	\caption{}
+	\label{fig:meanpositions}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Q1/results/3d_average_trajectory}
+	\caption{}
+	\label{fig:3daveragetrajectory}
+\end{figure}
+
+
+
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Q1/results/mean_displacement}
+	\caption{}
+	\label{fig:meandisplacement}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Q1/results/mean_displacement_squared}
+	\caption{}
+	\label{fig:meandisplacementsquared}
+\end{figure}
+
+
+
+
+
+\begin{table}[H]
+	\setcounter{rownum}{0}
+	
+	\centering
+	\begin{tabular}{ccc}
+		\toprule
+		\textbf{ردیف} & \textbf{عبارت} & \textbf{مقدار} \\\midrule
+		\stepcounter{rownum}\therownum & $\mathbb{E}\big\{x_n\big\}$ & \saverread \\\midrule
+		\stepcounter{rownum}\therownum & $\mathbb{E}\big\{y_n\big\}$ & \saverread \\\midrule	
+		\stepcounter{rownum}\therownum & $\mathbb{E}\big\{z_n\big\}$ & \saverread \\\midrule
+		\stepcounter{rownum}\therownum & $\mathbb{E}\big\{d_n\big\} =\mathbb{E}\big\{\sqrt{x_n^2+y_n^2+z_n^2}\big\}$ & \saverread \\\midrule
+		\stepcounter{rownum}\therownum & $\text{\lr{RMS}} = \sqrt{\mathbb{E}\big\{x_n^2+y_n^2+z_n^2\big\}}$ & \saverread \\\midrule
+	\end{tabular}
+\end{table}
+
+
+
+\begin{align}
+	\setcounter{rownum}{0}= \mathbb{E}\big\{\sqrt{x_n^2+y_n^2+z_n^2}\big\}  \saverread \\
+\end{align}
+
+
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\FloatBarrier
 	\question%{خودهمبستگی و همبستگی متقابل}
@@ -259,6 +327,33 @@
 	\label{fig:mt-60}
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Q2/results/e-mt-lambda1-10.00-lambda2-0.50-fit}
+	\caption{}
+	\label{fig:e-mt-fit}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\begin{latin}
+\begin{lstlisting}
+% Exponential fit function
+fitFunc = @(b, x) b(1) * (1 - exp(-x * b(2)));  
+% Initial guess for parameters
+initialGuess = [max(Ms), 10]; 
+% Fit the model using fminsearch
+params = fminsearch(@(b) sum((Ms - fitFunc(b, t)).^2), initialGuess);
+\end{lstlisting}
+\end{latin}
+
+
 
 \begin{figure}[H]
 	\centering
@@ -267,6 +362,20 @@
 	\label{fig:e-mt-1}
 \end{figure}
 
+
+
+
+\begin{latin}
+\begin{lstlisting}
+params = [lambda1 / lambda2, lambda2];
+\end{lstlisting}
+\end{latin}
+
+
+
+\begin{equation}
+	\mathbb{E}\big\{M(t)\big\} = \frac{\lambda_1}{\lambda_2} (1 - \mathrm{e}^{-\lambda_2 t})
+\end{equation}
 
 \begin{figure}[H]
 	\centering
@@ -282,15 +391,68 @@
 \end{figure}
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Q2/results/e-mt-lambda1-10.00-lambda2-0.50-time}
+	\caption{}
+	\label{fig:e-mt-time-1}
+\end{figure}
+
+
+    
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule\rowcolor{gray!20}
+		$\lambda_1$ & $\lambda_2$ &  $b_1\ \big(1 - e^{-b_2\ t}\big)$ & $\frac{\lambda_1}{\lambda_2} (1 - e^{-\frac{\lambda_2}{2}t})$\\\midrule
+		$10$ & $0.5$ & \makefitrowlambda{10.00}{0.50}{1} & \makefitrowlambda{10.00}{0.50}{2} \\\midrule
+		$20$ & $0.5$ & \makefitrowlambda{20.00}{0.50}{1} & \makefitrowlambda{20.00}{0.50}{2} \\\midrule
+		$10$ & $0.1$ & \makefitrowlambda{10.00}{0.10}{1} & \makefitrowlambda{10.00}{0.10}{2} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
 \begin{equation}
-	\mathbb{E}\big\{M(t)\big\} = \frac{\lambda_1}{\lambda_2} (1 - \mathrm{e}^{-\lambda_2 t})
+	    \big\langle\ M(t)\ \big\rangle_T \approx
+	    \frac{\lambda_1}{\lambda_2} \big(1 - \mathrm{e}^{-\frac{\lambda_2}{2}t} \big)
 \end{equation}
-
-
+    
+    
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[width=\linewidth]{Q2/results/e-mt-lambda1-10.00-lambda2-0.10-time}
+    	\caption{}
+    	\label{fig:e-mt-time-2}
+    \end{figure}
+    
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[width=\linewidth]{Q2/results/e-mt-lambda1-20.00-lambda2-0.50-time}
+    	\caption{}
+    	\label{fig:e-mt-time-3}
+    \end{figure}
+    
+    
+    
+\begin{table}[H]
+	\centering
+ 	\begin{tabular}{cccc}
+		\toprule\rowcolor{gray!20}
+		$\lambda_1$ & $\lambda_2$ &  $b_1\ \big(1 - e^{-b_2\ t}\big)$ & $\frac{\lambda_1}{\lambda_2} (1 - e^{-\frac{\lambda_2}{2}t})$\\\midrule
+		$10$ & $0.5$ & \makefitrowlambdatime{10.00}{0.50}{1} & \makefitrowlambdatime{10.00}{0.50}{2} \\\midrule
+		$20$ & $0.5$ & \makefitrowlambdatime{20.00}{0.50}{1} & \makefitrowlambdatime{20.00}{0.50}{2} \\\midrule
+		$10$ & $0.1$ & \makefitrowlambdatime{10.00}{0.10}{1} & \makefitrowlambdatime{10.00}{0.10}{2} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+    
+    
 \begin{equation}
-	\lim\limits_{t\to\infty} \mathbb{E}\big\{M(t)\big\} = 
+	\lim\limits_{T\to\infty}  \big\langle\ M(t)\ \big\rangle_T \approx 
 	 \frac{\lambda_1}{\lambda_2} = 20
 \end{equation}
+
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\FloatBarrier
